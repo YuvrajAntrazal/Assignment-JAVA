@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import New_Assignment.Animal.Animal;
 import New_Assignment.Services.Cage;
 import New_Assignment.Utility.Animal_Factory;
-import New_Assignment.Utility.EnumConstant;
 
 public class AnimalRepository {
 
@@ -23,9 +22,9 @@ public class AnimalRepository {
             conn = Connection_Provider.getConn();
             Statement st = conn.createStatement();
             int rowsaffected  = st.executeUpdate("delete from animal where zooId = "+cage.zooId+" && zoneId = "+cage.zoneId+" && cageId = "+cage.id+" && animalId = "+animalId);
-            if(rowsaffected>0) return true;
-            return false;
+            if(rowsaffected>0) fl = true;
         } catch (SQLException e) {
+            fl = false;
             System.out.println("Animal Is Not Removed");
         }
         return fl;

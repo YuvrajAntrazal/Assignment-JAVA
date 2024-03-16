@@ -183,9 +183,10 @@ public class Zoo_Manager {
                     }
 
                     Animal animal = Animal_Factory.createAnimalObj(animalType, name, age, weight);
-                    System.out.println("Animal ID: " + animal.getId());
+                    
 
                     if (zoo.allocateAnimal(animal)) {
+                        System.out.println("Animal ID: " + animal.getId());
                         ZooManagerPrinter.printAnimalAddSuccessMessage();
                     } else {
                         ZooManagerPrinter.printFailInsertAnimalMessage();

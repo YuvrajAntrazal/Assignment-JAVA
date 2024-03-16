@@ -98,12 +98,14 @@ public class Cage {
     }
 
     public boolean removeAnimal(int id){
+        this.setList();
         boolean isRemoved=false;
         for(Animal a:animalslist){
             if(a.getId()==id){
-                isRemoved=animalslist.remove(a);
-                return AnimalRepository.removeAnimal(this, id);
+                isRemoved = AnimalRepository.removeAnimal(this, id);
+                this.setList();
             }
+            if(isRemoved) break;
         }
         return isRemoved;
     }

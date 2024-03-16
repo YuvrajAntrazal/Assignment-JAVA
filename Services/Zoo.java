@@ -57,12 +57,12 @@ public class Zoo {
     }
 
     public Zone findAvailableZone(EnumConstant.AnimalSpecies animalSpecies, List<Zone> zoneslist) {
-        System.out.println("size of zonelist -> "+zoneslist.size());
+        // System.out.println("size of zonelist -> "+zoneslist.size());
         this.getZoneList();
         for (Zone x : zoneslist) { 
             if (x.getZoneType() == animalSpecies) {
-                System.out.println(x.getZoneType() == animalSpecies);
-                System.out.println(x.getZoneType()+" "+animalSpecies);
+                // System.out.println(x.getZoneType() == animalSpecies);
+                // System.out.println(x.getZoneType()+" "+animalSpecies);
                 return x;
             }
         }
@@ -81,7 +81,7 @@ public class Zoo {
         Zone zone = findAvailableZone(animalSpecies, zoneslist);
         if (zone != null) {
             isAdded = zone.addAnimal(animal, this.zooId);
-            System.out.println("Same Zone ID: "+zone.getId());
+            System.out.println("Zone ID: "+zone.getId());
         }  
         else {
             Zone newZone = this.addNewZone(zooName, animalSpecies, maxNumberOfZones,zooId);
@@ -121,9 +121,7 @@ public class Zoo {
         boolean isRemoved=false;
         for(Zone z:zoneslist){
            isRemoved=z.removeAnimal(id);
-           if (isRemoved) { 
-            return true;
-        }
+           if(isRemoved) break;
         }
         return isRemoved;
     }

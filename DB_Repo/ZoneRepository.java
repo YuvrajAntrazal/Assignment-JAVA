@@ -19,13 +19,13 @@ public class ZoneRepository {
             conn = Connection_Provider.getConn();
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery("select * from zone where zooId = "+zooId);
-            ("=").repeat(15);
+            // ("=").repeat(15);
             while(rs.next()){
                 EnumConstant.AnimalSpecies myenum = EnumConstant.AnimalSpecies.valueOf(rs.getString("speciesType"));
                 arr.add(new Zone(rs.getInt("zoneId"), myenum, rs.getInt("maxNumberOfCages"), zooId));
-                System.out.println("zone Id -> "+rs.getInt("zoneId"));
+                // System.out.println("zone Id -> "+rs.getInt("zoneId"));
             }
-            ("=").repeat(15);
+            // ("=").repeat(15);
         } catch (SQLException e) {
             e.printStackTrace();
         }
