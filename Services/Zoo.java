@@ -55,8 +55,11 @@ public class Zoo {
     }
 
     public Zone findAvailableZone(EnumConstant.AnimalSpecies animalSpecies, List<Zone> zoneslist) {
+        System.out.println("size of zonelist -> "+zoneslist.size());
         for (Zone x : zoneslist) { 
             if (x.getZoneType() == animalSpecies) {
+                System.out.println(x.getZoneType() == animalSpecies);
+                System.out.println(x.getZoneType()+" "+animalSpecies);
                 return x;
             }
         }
@@ -65,7 +68,7 @@ public class Zoo {
     }
 
     public Zone addNewZone(String zoneName, EnumConstant.AnimalSpecies animalSpecies, int maxNumberOfCages,int zooId) {
-        return new Zone(animalSpecies, 3,zooId);
+        return new Zone(-1, animalSpecies, 3,zooId);
     }
 
     public boolean allocateAnimal(Animal animal) {
@@ -75,12 +78,11 @@ public class Zoo {
         Zone zone = findAvailableZone(animalSpecies, zoneslist);
         if (zone != null) {
             isAdded = zone.addAnimal(animal, this.zooId);
-            System.out.println("Zone ID: "+zone.getId());
+            System.out.println("Same Zone ID: "+zone.getId());
         }  
         else {
             Zone newZone = this.addNewZone(zooName, animalSpecies, maxNumberOfZones,zooId);
-            zoneslist.add(newZone);
-            ZoneRepository.insertIntoZoneTable(newZone.getId(), animalSpecies, 3,zooId, newZone.getId()); 
+            ZoneRepository.insertIntoZoneTable(newZone.getId(), animalSpecies, 3,zooId); 
             System.out.println("Zone ID: "+newZone.getId());
             isAdded = newZone.addAnimal(animal, this.zooId);
         }

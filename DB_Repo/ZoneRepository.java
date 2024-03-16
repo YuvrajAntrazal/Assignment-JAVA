@@ -15,15 +15,17 @@ public class ZoneRepository {
    public static ArrayList<Zone> getZonesOfZoo(int zooId){
     ArrayList<Zone> arr = new ArrayList<>();  
     try{
-
             Connection conn = null; 
             conn = Connection_Provider.getConn();
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery("select * from zone where zooId = "+zooId);
-            if(rs.next()){
+            ("=").repeat(15);
+            while(rs.next()){
                 EnumConstant.AnimalSpecies myenum = EnumConstant.AnimalSpecies.valueOf(rs.getString("speciesType"));
-                arr.add(new Zone(myenum, rs.getInt("maxNumberOfCages"), zooId));
+                arr.add(new Zone(rs.getInt("zoneId"), myenum, rs.getInt("maxNumberOfCages"), zooId));
+                System.out.println("zone Id -> "+rs.getInt("zoneId"));
             }
+            ("=").repeat(15);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,13 +39,14 @@ public class ZoneRepository {
                 Connection conn = null; 
                 conn = Connection_Provider.getConn();
                 Statement st = conn.createStatement();
-                ResultSet rs =  st.executeQuery("select zoneId from zone order by id DESC limit 1");
+                ResultSet rs =  st.executeQuery("select zoneId from zone order by zoneId DESC limit 1");
                 if(rs.next()){
                     id = rs.getInt("zoneId");
                     id++;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Zone Table Is Not Created Yet");
+
             }
             return id;
         }
@@ -71,7 +74,7 @@ public class ZoneRepository {
      }
     }
 
-     public static void insertIntoZoneTable(int id, EnumConstant.AnimalSpecies speciesType, int maxNumberOfCages,int zooId, int zoneId){
+     public static void insertIntoZoneTable(int id, EnumConstant.AnimalSpecies speciesType, int maxNumberOfCages,int zooId){
         try{
                 Connection c=null;
                 c = Connection_Provider.getConn();
@@ -81,7 +84,7 @@ public class ZoneRepository {
                 pstmt.setString(1, speciesType.toString());
                 pstmt.setInt(2, maxNumberOfCages);
                 pstmt.setInt(3, zooId);
-                pstmt.setInt(4, zoneId);
+                pstmt.setInt(4, id);
                 pstmt.executeUpdate();
             }
            catch (SQLException e) {

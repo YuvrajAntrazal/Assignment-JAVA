@@ -22,7 +22,7 @@ public class CageRepository {
             conn = Connection_Provider.getConn();
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery("select * from cage where zooId = "+zooId+" && zoneId = "+zoneId);
-            if(rs.next()){
+            while(rs.next()){
                 EnumConstant.AnimalSpecies speciesType = EnumConstant.AnimalSpecies.valueOf(rs.getString("animalSpeciestype"));
                 EnumConstant.CageType cageType = EnumConstant.CageType.valueOf(rs.getString("cageType"));
                 arr.add(new Cage(rs.getInt("cageId"),speciesType, cageType, rs.getInt("maxNumberOfAnimal"),zooId, zoneId));
@@ -39,13 +39,14 @@ public class CageRepository {
                 Connection conn = null; 
                 conn = Connection_Provider.getConn();
                 Statement st = conn.createStatement();
-                ResultSet rs =  st.executeQuery("select cageId from cage order by id DESC limit 1");
+                ResultSet rs =  st.executeQuery("select cageId from cage order by cageId DESC limit 1");
                 if(rs.next()){
                     id = rs.getInt("cageId");
                     id++;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Cage Table Is Not Created Yet");
+
             }
             return id;
         }

@@ -17,8 +17,9 @@ public class Zone {
     private boolean hasPark;
     private boolean hasCanteen;
 
-    public Zone( EnumConstant.AnimalSpecies zoneType, int maxNumberOfCages,int zooId) {
-        this.id = ZoneRepository.getId();
+    public Zone(int id, EnumConstant.AnimalSpecies zoneType, int maxNumberOfCages,int zooId) {
+        if(id==-1)this.id = ZoneRepository.getId();
+        else this.id = id;
         //this.zoneName = zoneName;
         this.zoneType = zoneType;
         this.maxNumberOfCages = maxNumberOfCages;
@@ -100,6 +101,7 @@ public class Zone {
     }
 
     public boolean checkPoint(Animal animal, Cage cage) {
+        cage.setList();
         for (Animal an : cage.getAnimals()) {
 
             if (!an.getCageType().name().equalsIgnoreCase(animal.getCageType().name())) {
@@ -111,7 +113,7 @@ public class Zone {
 
     public Boolean addAnimal(Animal animal, int zooId) {
         Boolean isAdded = false;
-        this.cageslist = CageRepository.getCagesOfZone(zooId, zooId);
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         for (Cage cage : cageslist) {
 
             if (checkPoint(animal, cage) && !cage.isFull()) {
@@ -120,11 +122,8 @@ public class Zone {
 
         }
         if (!isAdded && cageslist.size() < 3) {
-            Cage Newcage = new Cage(1, animal.getSpeciesType(), animal.getCageType(),  2,zooId, this.id);
-        
-            cageslist.add(Newcage);
+            Cage Newcage = new Cage(-1, animal.getSpeciesType(), animal.getCageType(),  2,zooId, this.id);
             CageRepository.insertintoCageTable(1, animal.getSpeciesType(), 2, animal.getCageType().name(),zooId, this.id, Newcage.getId());
-
             isAdded = Newcage.addAnimal(animal, this.id);
         }
         return isAdded;

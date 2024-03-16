@@ -13,7 +13,7 @@ public class ZooRepository {
                 Connection conn = null; 
                 conn = Connection_Provider.getConn();
                 Statement st = conn.createStatement();
-                ResultSet rs =  st.executeQuery("select zooId from zoo order by id DESC limit 1");
+                ResultSet rs =  st.executeQuery("select zooId from zoo order by zooId DESC limit 1");
                 if(rs.next()){
                     id = rs.getInt("zooId");
                     id++;

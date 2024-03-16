@@ -22,11 +22,11 @@ public class AnimalRepository {
             conn = Connection_Provider.getConn();
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery("select * from animal where zooId = "+zooId+" && zoneId = "+zoneId+" && cageId = "+cageId);
-            if(rs.next()){
+            while(rs.next()){
                 arr.add(Animal_Factory.createAnimalObj(rs.getString("animalType"), rs.getString("animalName"), rs.getInt("animalAge"), rs.getDouble("animalWeight")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Animal Table Is Not Created Yet");
         }
         return arr;
     }
@@ -56,7 +56,7 @@ public class AnimalRepository {
                 Connection conn = null; 
                 conn = Connection_Provider.getConn();
                 Statement st = conn.createStatement();
-                ResultSet rs =  st.executeQuery("select animalId from animal order by id DESC limit 1");
+                ResultSet rs =  st.executeQuery("select animalId from animal order by animalId DESC limit 1");
                 if(rs.next()){
                     id = rs.getInt("animalId");
                     id++;

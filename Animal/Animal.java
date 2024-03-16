@@ -3,7 +3,7 @@ import New_Assignment.DB_Repo.AnimalRepository;
 import New_Assignment.Utility.EnumConstant;
 public abstract class Animal {
     // private int idCounter = 1000;
-    private int id;
+    public int id;
     private String name;
     private int age;
     private double weight;

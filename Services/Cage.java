@@ -19,9 +19,10 @@ public class Cage {
     private int zoneId;
     private ArrayList<Animal> animalslist;
 
-    public Cage(int id ,AnimalSpecies animalSpeciestype, CageType cageType,int maxNumberOfAnimal,int zooId, int zoneId) {
+    public Cage(int id, AnimalSpecies animalSpeciestype, CageType cageType,int maxNumberOfAnimal,int zooId, int zoneId) {
         // this.id = Cage.idCounter++;
-        this.id = CageRepository.getId();
+        if(id==-1) this.id = CageRepository.getId();
+        else this.id = id;
         this.animalSpecies = animalSpeciestype;
 
         if (animalSpecies == AnimalSpecies.BIRD) { 
@@ -65,6 +66,7 @@ public class Cage {
     }
 
     public ArrayList<Animal> getAnimals() {
+        this.animalslist = AnimalRepository.getAnimalsOfCage(zoneId, zooId, id);
         return animalslist;
     }
 
@@ -76,7 +78,7 @@ public class Cage {
         this.cageType = cageType;
     }
 
-    public void getList(){
+    public void setList(){
         this.animalslist = AnimalRepository.getAnimalsOfCage(zoneId, zooId, this.id);
     }
 
@@ -85,12 +87,10 @@ public class Cage {
     }
 
     public boolean addAnimal(Animal animal, int zoneId) {
-        this.getList();
         if (!isFull() && animalSpecies.name().equalsIgnoreCase(animal.getSpeciesType().name())) {
-            animalslist.add(animal);
-            this.getList();
             AnimalRepository.animalTable();
             AnimalRepository.insertIntoAnimalTable(id,animal.getName(),animal.getAge(),animal.getWeight(),zooId,getId(), zoneId, animal.getCageType().name());
+            this.setList();
             return true;
         }
         return false;
