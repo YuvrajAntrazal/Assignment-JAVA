@@ -96,6 +96,7 @@ public class Zone {
     }
 
     public void removeCage(Cage cage) {
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         cageslist.remove(cage);
         isEmpty = cageslist.isEmpty();
     }
@@ -130,6 +131,7 @@ public class Zone {
     }
 
     public boolean removeAnimal(int id) {
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         boolean isRemoved = false;
         for (Cage c : cageslist) {
             isRemoved=c.removeAnimal(id);
@@ -141,6 +143,7 @@ public class Zone {
     }
 
     public void getAnimalDetailsById(int id) {
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         for (Cage cage : cageslist) {
             cage.getAnimalDetailsById(id);
         }
@@ -151,6 +154,7 @@ public class Zone {
         System.out.println("Zone Type --> " + getZoneType() + "\n");
         System.out.println("Has Canteen --> " + getHasCanteen());
         System.out.println("Has Park --> " + getHasPark() + "\n");
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         for (Cage cage : cageslist) {
             System.out.println("Cage ID --> "+cage.getId());
             ArrayList<Animal> animals = cage.getAnimals();
@@ -164,11 +168,10 @@ public class Zone {
     }
     
     public void showZoneDetails() {
-
         System.out.println();
         System.out.println("Zone Name --> " + getZoneType()+ "     Zone ID --> " + getId());
         System.out.println("Number of Cages in " + getZoneType() + " Zone --> " + cageslist.size());
-    
+        this.cageslist = CageRepository.getCagesOfZone(this.id, zooId);
         for (Cage cage : cageslist) {
             ArrayList<Animal> animals = cage.getAnimals();
             if (!animals.isEmpty()) {

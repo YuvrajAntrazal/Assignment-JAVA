@@ -23,6 +23,7 @@ public class Zoo {
         this.zoneslist = zoneslist;
     }
     public List<Zone> getZoneList() {
+        this.zoneslist = ZoneRepository.getZonesOfZoo(this.zooId);
         return this.zoneslist;
     }
 
@@ -47,6 +48,7 @@ public class Zoo {
     }
 
     public boolean addZone(Zone zone) {
+        this.getZoneList();
         for (int i = 0; i < zoneslist.size(); i++) {
             zoneslist.add(zone);
             return true;
@@ -56,6 +58,7 @@ public class Zoo {
 
     public Zone findAvailableZone(EnumConstant.AnimalSpecies animalSpecies, List<Zone> zoneslist) {
         System.out.println("size of zonelist -> "+zoneslist.size());
+        this.getZoneList();
         for (Zone x : zoneslist) { 
             if (x.getZoneType() == animalSpecies) {
                 System.out.println(x.getZoneType() == animalSpecies);
@@ -100,18 +103,21 @@ public class Zoo {
 
     public void showZooDetails() {
         System.out.println("\nNumber of Zones --> " + maxNumberOfZones);
+        this.zoneslist = ZoneRepository.getZonesOfZoo(this.zooId);
         for (Zone zone : zoneslist) {
             zone.showZoneDetails(); 
         }
     }
         
     public void getAnimalDetailsById(int id) {
+        this.getZoneList();
         for (Zone zone : zoneslist) {
             zone.getAnimalDetailsById(id);
         }
     }
  
     public boolean removeAnimalById(int id){
+        this.getZoneList();
         boolean isRemoved=false;
         for(Zone z:zoneslist){
            isRemoved=z.removeAnimal(id);
@@ -123,6 +129,7 @@ public class Zoo {
     }
 
     public void viewZoneById(int zoneId) {
+        this.getZoneList();
         for (Zone zone : zoneslist) {
             if (zone.getId() == zoneId) {
                 zone.viewZoneDetails(); 

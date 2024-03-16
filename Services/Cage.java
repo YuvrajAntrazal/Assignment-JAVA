@@ -9,14 +9,14 @@ import New_Assignment.Animal.Animal;
 
 public class Cage {
     // private static int idCounter = 1;
-    private int id;
+    public int id;
     private String cageName;
     private AnimalSpecies animalSpecies;
     private int maxNumberOfAnimal;
     private CageType cageType;
     private boolean isEmpty;
-    private int zooId;
-    private int zoneId;
+    public int zooId;
+    public int zoneId;
     private ArrayList<Animal> animalslist;
 
     public Cage(int id, AnimalSpecies animalSpeciestype, CageType cageType,int maxNumberOfAnimal,int zooId, int zoneId) {
@@ -66,7 +66,7 @@ public class Cage {
     }
 
     public ArrayList<Animal> getAnimals() {
-        this.animalslist = AnimalRepository.getAnimalsOfCage(zoneId, zooId, id);
+        this.animalslist = AnimalRepository.getAnimalsOfCage(zoneId, zooId, this.id);
         return animalslist;
     }
 
@@ -89,7 +89,8 @@ public class Cage {
     public boolean addAnimal(Animal animal, int zoneId) {
         if (!isFull() && animalSpecies.name().equalsIgnoreCase(animal.getSpeciesType().name())) {
             AnimalRepository.animalTable();
-            AnimalRepository.insertIntoAnimalTable(id,animal.getName(),animal.getAge(),animal.getWeight(),zooId,getId(), zoneId, animal.getCageType().name());
+            animal.setId(AnimalRepository.getId());
+            AnimalRepository.insertIntoAnimalTable(animal.getId(), animal.getName(),animal.getAge(),animal.getWeight(), zooId, getId(), zoneId, animal.getCageType().name());
             this.setList();
             return true;
         }
@@ -101,13 +102,14 @@ public class Cage {
         for(Animal a:animalslist){
             if(a.getId()==id){
                 isRemoved=animalslist.remove(a);
-                return isRemoved;
+                return AnimalRepository.removeAnimal(this, id);
             }
         }
         return isRemoved;
     }
 
     public Animal findAnimal(int animalId) {
+        this.setList();
         for (Animal animal : animalslist) {
             if (animal.getId() == animalId) {
                 return animal;
@@ -117,6 +119,7 @@ public class Cage {
     }
 
     public void getAnimalDetailsById(int id) {
+        this.setList();
         for (Animal animal : animalslist) {
             if (animal.getId() == id) {
                 System.out.println("Animal ID --> " + animal.getId() +

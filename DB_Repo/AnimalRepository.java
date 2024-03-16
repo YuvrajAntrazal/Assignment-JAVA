@@ -14,6 +14,24 @@ import New_Assignment.Utility.EnumConstant;
 
 public class AnimalRepository {
 
+
+    public static boolean removeAnimal(Cage cage, int animalId){
+        boolean fl = false;
+        try{
+
+            Connection conn = null; 
+            conn = Connection_Provider.getConn();
+            Statement st = conn.createStatement();
+            int rowsaffected  = st.executeUpdate("delete from animal where zooId = "+cage.zooId+" && zoneId = "+cage.zoneId+" && cageId = "+cage.id+" && animalId = "+animalId);
+            if(rowsaffected>0) return true;
+            return false;
+        } catch (SQLException e) {
+            System.out.println("Animal Is Not Removed");
+        }
+        return fl;
+    }
+
+
     public static ArrayList<Animal> getAnimalsOfCage(int zoneId, int zooId, int cageId){
     ArrayList<Animal> arr = new ArrayList<>();  
     try{
@@ -23,7 +41,9 @@ public class AnimalRepository {
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery("select * from animal where zooId = "+zooId+" && zoneId = "+zoneId+" && cageId = "+cageId);
             while(rs.next()){
-                arr.add(Animal_Factory.createAnimalObj(rs.getString("animalType"), rs.getString("animalName"), rs.getInt("animalAge"), rs.getDouble("animalWeight")));
+                Animal animal = Animal_Factory.createAnimalObj(rs.getString("animalType"), rs.getString("animalName"), rs.getInt("animalAge"), rs.getDouble("animalWeight"));
+                animal.setId(rs.getInt("animalId"));
+                arr.add(animal);
             }
         } catch (SQLException e) {
             System.out.println("Animal Table Is Not Created Yet");
@@ -93,7 +113,7 @@ public class AnimalRepository {
          }
         }
 
-        public static void insertIntoAnimalTable(int id,String animalName,int animalAge ,double animalWeight,int zooId,int cageId, int zoneId, String animalType){
+        public static void insertIntoAnimalTable(int id,String animalName,int animalAge ,double animalWeight,int zooId, int cageId, int zoneId, String animalType){
             try{
                 Connection c=null; 
                 c = Connection_Provider.getConn();

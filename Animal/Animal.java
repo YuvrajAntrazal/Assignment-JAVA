@@ -9,10 +9,13 @@ public abstract class Animal {
     private double weight;
 
     public Animal(String name, int age, double weight) {
-        this.id = AnimalRepository.getId();
         this.name = name;
         this.age = age;
         this.weight = weight;
+    }
+    
+    public void setId(int id){
+        this.id = id;
     }
 
     public int getId() {
