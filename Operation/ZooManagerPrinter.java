@@ -1,5 +1,16 @@
 package New_Assignment.Operation;
+
 import New_Assignment.Utility.Constant_Class;
+
+/*
+*********************************************************************************************************
+ *  @Java Class Name :   ZooManagerPrinter
+ *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+ *  @Company         :   Antrazal
+ *  @Date            :   18-03-2024
+ *  @Description     :   This class is responsible for All Printing Statements in the Zoo Management System.
+********************************************************************************************************
+*/
 public class ZooManagerPrinter {
 
     public static void printZooNamePrompt() {
@@ -13,6 +24,7 @@ public class ZooManagerPrinter {
     public static void printNoOfZonesPrompt() {
         System.out.print(Constant_Class.NO_OF_ZONES);
     }
+
     public static void printEnterZooId() {
         System.out.print(Constant_Class.ENTER_ZOO_ID);
     }
@@ -77,9 +89,10 @@ public class ZooManagerPrinter {
         System.out.println(Constant_Class.AGE_MUST_BE_POSITIVE + "\n");
     }
 
-    public static void printAgeMustBeValidNumber(){
-        System.out.println(Constant_Class.AGE_MUST_BE_VALID_NO+"\n");
+    public static void printAgeMustBeValidNumber() {
+        System.out.println(Constant_Class.AGE_MUST_BE_VALID_NO + "\n");
     }
+
     public static void printEnterWeightPrompt() {
         System.out.print(Constant_Class.ENTER_WEIGHT);
     }
@@ -88,8 +101,8 @@ public class ZooManagerPrinter {
         System.out.println(Constant_Class.WEIGHT_MUST_BE_POSIT + "\n");
     }
 
-    public static void printValidNumberForWeight(){
-        System.out.println(Constant_Class.VALI_NO_OF_WEIGHT+"\n");
+    public static void printValidNumberForWeight() {
+        System.out.println(Constant_Class.VALI_NO_OF_WEIGHT + "\n");
     }
 
     public static void printAnimalId(int id) {
@@ -126,5 +139,12 @@ public class ZooManagerPrinter {
 
     public static void printGoodByeMessage() {
         System.out.println(Constant_Class.GOOD_BYY);
+    }
+
+    public static void AnimalNotRemovedMessage(){
+        System.out.println(Constant_Class.ANIMAL_NOT_REMOVED);
+    }
+    public static void AnimalIsNotRemovedYet(){
+        System.out.println(Constant_Class.ANIMAL_TABLE_IS_NOT_CREATED_YET);
     }
 }

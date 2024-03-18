@@ -1,4 +1,5 @@
 package New_Assignment.Operation;
+
 import java.util.*;
 import New_Assignment.Animal.Animal;
 import New_Assignment.DB_Repo.ZooRepository;
@@ -7,7 +8,26 @@ import New_Assignment.Utility.Animal_Factory;
 import New_Assignment.Utility.Constant_Class;
 import New_Assignment.Operation.Zoo_Manager;
 
+/*
+*********************************************************************************************************
+ *  @Java Class Name :   Zoo_Manager
+ *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+ *  @Company         :   Antrazal
+ *  @Date            :   18-03-2024
+ *  @Description     :   This class will decide the execution of the Zoo Management System.
+********************************************************************************************************
+*/
 public class Zoo_Manager {
+
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   Manager
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   This method has all the functionalities of the Zoo Management System.
+    ********************************************************************************************************
+    */
     public static void Manager() {
         Scanner ip = new Scanner(System.in);
         boolean exit = false;
@@ -54,19 +74,22 @@ public class Zoo_Manager {
         ip.close();
     }
 
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   createNewZoo
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   This method creates the Object of the Zoo & perform Several Functionalities in it.
+     *  @param           :   Object of Scanner Class.
+    ********************************************************************************************************
+    */
     private static void createNewZoo(Scanner ip) {
 
         int zooId = 0;
         boolean validzooIdInput = false;
 
         while (!validzooIdInput) {
-            // try {
-            //     ZooManagerPrinter.printEnterZooId();
-            //     zooId = Integer.parseInt(ip.nextLine());
-            //     validzooIdInput = true;
-            // } catch (NumberFormatException e) {
-            //     ZooManagerPrinter.printPleaseMakeSure();
-            // }
             zooId = ZooRepository.getId();
             validzooIdInput = true;
         }
@@ -74,7 +97,7 @@ public class Zoo_Manager {
         try {
             if (ZooRepository.checkIfZooExists(zooId)) {
                 System.out.println("Zoo ID " + zooId + " already exists.");
-                return; 
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,7 +206,6 @@ public class Zoo_Manager {
                     }
 
                     Animal animal = Animal_Factory.createAnimalObj(animalType, name, age, weight);
-                    
 
                     if (zoo.allocateAnimal(animal)) {
                         System.out.println("Animal ID: " + animal.getId());
@@ -259,3 +281,4 @@ public class Zoo_Manager {
 
     }
 }
+

@@ -1,36 +1,63 @@
 package New_Assignment.DB_Repo;
+
 import java.sql.*;
 import java.util.Scanner;
 import New_Assignment.Operation.ZooManagerPrinter;
-import New_Assignment.Utility.EnumConstant;
+import New_Assignment.Utility.Constant_Class;
+
+/*
+*********************************************************************************************************
+ *  @Java Class Name :   ZooRepository
+ *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+ *  @Company         :   Antrazal
+ *  @Date            :   18-03-2024
+ *  @Description     :   This class will Interact with Zoo Table in Database.
+********************************************************************************************************
+*/
 public class ZooRepository {
     static Scanner ip = new Scanner(System.in);
 
-
-    public static int getId(){
-        int id = 1000;    
-        try{
-                Connection conn = null; 
-                conn = Connection_Provider.getConn();
-                Statement st = conn.createStatement();
-                ResultSet rs =  st.executeQuery("select zooId from zoo order by zooId DESC limit 1");
-                if(rs.next()){
-                    id = rs.getInt("zooId");
-                    id++;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   getId
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   Responsible for getting ID of a Zoo.
+    ********************************************************************************************************
+    */
+    public static int getId() {
+        int id = Constant_Class.ZONE_STRT_ID;
+        try {
+            Connection conn = null;
+            conn = Connection_Provider.getConn();
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(Constant_Class.SELECT_ZOO_ID);
+            if (rs.next()) {
+                id = rs.getInt("zooId");
+                id++;
             }
-            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return id;
+    }
 
-
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   ZooTable
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   Responsible for Creating the Zoo Table.
+    ********************************************************************************************************
+    */
     public static void ZooTable(String zooName) {
 
         try {
             Connection c = null;
             c = Connection_Provider.getConn();
-            String q = "create table IF NOT EXISTS zoo (zooId INT AUTO_INCREMENT PRIMARY KEY, zooName VARCHAR(255))";
+            String q = Constant_Class.CREATE_ZOO_TABLE;
 
             Statement stmt = c.createStatement();
             stmt.executeUpdate(q);
@@ -40,11 +67,21 @@ public class ZooRepository {
         }
     }
 
+     /*
+    *********************************************************************************************************
+     *  @Method Name     :   checkIfZooExists
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   Responsible for Checking if the Zoo Already exists or Not.
+     *  @Param           :   int zooId
+    ********************************************************************************************************
+    */
     public static boolean checkIfZooExists(int zooId) {
         try {
             Connection c = null;
             c = Connection_Provider.getConn();
-            String query = "SELECT COUNT(*) FROM zoo WHERE zooId = ?";
+            String query = Constant_Class.SELECT_COUNT_FROM_ZOO;
             PreparedStatement ps = c.prepareStatement(query);
             ps.setInt(1, zooId);
             try (ResultSet resultSet = ps.executeQuery()) {
@@ -59,12 +96,22 @@ public class ZooRepository {
         return false;
     }
 
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   insertIntoZooTable
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   Responsible for inserting Zoo into Zoo Table.
+     *  @Param           :   int zooId, String zooName
+    ********************************************************************************************************
+    */
     public static void insertIntoZooTable(int zooId, String zooName) {
         try {
             Connection c = null;
             c = Connection_Provider.getConn();
 
-            String q = "insert into Zoo(zooId,zooName) values(?,?)";
+            String q = Constant_Class.INSERT_INTO_ZOO;
 
             PreparedStatement pstmt = c.prepareStatement(q);
             pstmt.setInt(1, zooId);
@@ -76,38 +123,15 @@ public class ZooRepository {
 
     }
 
-    public static void AddZoneintoTable(String zoneName, EnumConstant.AnimalSpecies animalSpecies,
-            int maxNumberOfCages) {
-        try {
-            Connection c = null;
-            c = Connection_Provider.getConn();
-
-            String query2 = "insert into Number_Of_Zones (Zones,Animal_Species,MaximumNoOfCages) values (?,?,?)";
-
-            PreparedStatement pstmt = c.prepareStatement(query2);
-
-            pstmt.setString(1, "zoneName");
-            pstmt.setString(2, "animalSpecies");
-            pstmt.setInt(3, 3);
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void removeAnimalssById(int id) {
-        try {
-            Connection c = null;
-            c = Connection_Provider.getConn();
-
-            String sql = "delete from animal where id=" + id;
-            Statement stmt = c.createStatement();
-            stmt.executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    /*
+    *********************************************************************************************************
+     *  @Method Name     :   prevoiusZooDetails
+     *  @Author          :   <Yuvraj Singh Gour>(yuvraj.singh@antrazal.com)
+     *  @Company         :   Antrazal
+     *  @Date            :   18-03-2024
+     *  @Description     :   Responsible for Viewing Previous Zoo details from the Zoo Table.
+    ********************************************************************************************************
+    */
     public static void prevoiusZooDetails() {
         Connection c = null;
         Statement stmt = null;
@@ -118,7 +142,7 @@ public class ZooRepository {
         try {
             c = Connection_Provider.getConn();
             stmt = c.createStatement();
-            String q = "SELECT * FROM Zoo";
+            String q =Constant_Class.SELECT_ALL_FROM_ZOO;
             result1 = stmt.executeQuery(q);
 
             while (result1.next()) {
@@ -129,7 +153,7 @@ public class ZooRepository {
                 System.out.println("Zoo ID: " + id + ", Zoo Name: " + zooName);
             }
 
-            System.out.println("\nEnter Zoo ID from above to see Zoo Details.");
+            System.out.println(Constant_Class.SELECT_ZOO_ID_FROM_ABOVE);
 
             int zooIdFromUser = 0;
             boolean validzooIdInput = false;
@@ -146,20 +170,22 @@ public class ZooRepository {
             try {
                 Connection coo = null;
                 coo = Connection_Provider.getConn();
-                String query = "select * from zone where zooId=" + zooIdFromUser;
+                String query = Constant_Class.SELECT_ALL_FROM_ZONE + zooIdFromUser;
                 Statement stmt1 = coo.createStatement();
 
                 result1 = stmt1.executeQuery(query);
 
                 while (result1.next()) {
 
-                    int zoneId = result1.getInt("id");
-                    String zoneType = result1.getString("zoneType");
+                    int uniquezoneId = result1.getInt("id");
+                    String speciesType = result1.getString("speciesType");
                     int maxNumberOfCages = result1.getInt("maxNumberOfCages");
                     int zooId = result1.getInt("zooId");
+                    int zoneId = result1.getInt("zoneId");
 
-                    System.out.println("Zone ID: " + zoneId + "  " + "zoneType: " + zoneType + "  " + "Max.Cages: "
-                            + maxNumberOfCages + "  " + "zooId: " + zooId);
+                    System.out.println(
+                            "Zone ID: " + zoneId + "   " + "speciesType: " + speciesType + "   " + "Max.Cages: "
+                                    + maxNumberOfCages + "   " + "zooId: " + zooId);
 
                     query = "select * from cage where zooId=" + zooId + " && zoneId = " + zoneId;
                     Statement stmt2 = coo.createStatement();
@@ -170,13 +196,13 @@ public class ZooRepository {
                         int cageId = result2.getInt("id");
                         String animalSpeciestype = result2.getString("animalSpeciestype");
                         String cagetype = result2.getString("cagetype");
-                        zooId = result2.getInt("zooId");
-
+                       
                         System.out
-                                .println("      Cage ID: " + cageId + "  " + "Animal Species: " + animalSpeciestype + "  "
-                                        + "Cage Type: " + cagetype + "  " + "zooId: " + zooId);
+                                .println("      Cage ID: " + cageId + "   " + "Animal Species: " + animalSpeciestype
+                                        + "   "
+                                        + "Cage Type: " + cagetype + "   " + "zooId: " + zooId);
 
-                        query = "select * from animal where zooId=" + zooIdFromUser + " && zoneId = " + zoneId
+                        query = Constant_Class.SELECT_ALL_FROM_ANIMAL_WHERE + zooIdFromUser + " && zoneId = " + zoneId
                                 + " && cageId = " + cageId;
                         Statement stmt3 = coo.createStatement();
 
@@ -188,18 +214,18 @@ public class ZooRepository {
                             String animalName = result3.getString("animalName");
                             int animalAge = result3.getInt("animalAge");
                             int animalWeight = result3.getInt("animalWeight");
-                            zooId = result3.getInt("zooId");
 
-                            System.out.println("          Animal ID: " + animaliId + "  " + "Animal Name: " + animalName
-                                    + "  "
-                                    + "Animal Age: "
-                                    + animalAge + "  " +  "Animal Weight: " + animalWeight + "  " + "zooId: " + zooId);
+                            System.out
+                                    .println("          Animal ID: " + animaliId + "   " + "Animal Name: " + animalName
+                                            + "   "
+                                            + "Animal Age: "
+                                            + animalAge + "   " + "Animal Weight: " + animalWeight);
                         }
                     }
                     System.out.println("=".repeat(20));
                     System.out.println();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
 
